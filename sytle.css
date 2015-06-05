@@ -1,0 +1,45 @@
+.schedule {
+    width: 100%;
+}
+
+.schedule__time {
+    width: 100%;
+    text-align: center;
+}
+
+.schedule__timeline {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.schedule__events-container {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.schedule__events {
+    width: 100%;
+    position: relative;
+}
+.schedule__titles {
+    white-space: nowrap;
+}
+
+.schedule__title {
+    display: inline-block;
+    text-align: center;
+    font-size: 28px;
+}
+
+
+
+/*////////////////*/
+#schedule {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: white;
+}
+body {
+    background-color: black;
+}
