@@ -1,0 +1,31 @@
+{
+  "name": "event-schedule",
+  "version": "1.0.0",
+  "description": "schedule for events",
+  "main": "",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alex499/event-schedule.git"
+  },
+  "author": "Alexey Tsitrkop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex499/event-schedule/issues"
+  },
+  "homepage": "https://github.com/alex499/event-schedule",
+  "devDependencies": {
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "jasmine": "^2.3.1",
+    "jquery": "^2.1.4"
+  }
+}

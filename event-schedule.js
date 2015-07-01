@@ -1,9 +1,11 @@
-import {dateFormatter} from "date-formatter";
+'use strict';
 
-(function($) {
+var _dateFormater = require('date-formater');
+
+(function ($) {
   'use strict';
 
-  $.fn.schedule = function(option) {
+  $.fn.schedule = function (option) {
     var millisecondsToHour = 60 * 60 * 1000;
     var api;
 
@@ -13,20 +15,18 @@ import {dateFormatter} from "date-formatter";
     //     ('0' + date.getMinutes()).slice(-2);
     // };
 
-    var drawTimeLine = function(timeLine, dateFormatter) {
+    var drawTimeLine = function drawTimeLine(timeLine, dateFormatter) {
       var result = '<div class="schedule__timeline">';
-      timeLine.slice(0, -1).forEach(function(time) {
-        result += '<div class="schedule__time"' +
-          'style="height:' + time.height + '">' +
-          dateFormatter(time.time) + '</div>';
+      timeLine.slice(0, -1).forEach(function (time) {
+        result += '<div class="schedule__time"' + 'style="height:' + time.height + '">' + dateFormatter(time.time) + '</div>';
       });
       return result + '</div>';
     };
 
-    var getTimeLine = function(events) {
+    var getTimeLine = function getTimeLine(events) {
       var timeLine = [];
       var timeList = [];
-      events.forEach(function(event, i) {
+      events.forEach(function (event, i) {
         if (timeList.map(Number).indexOf(event.startTime.valueOf()) === -1) {
           timeList.push(event.startTime);
         }
@@ -36,7 +36,7 @@ import {dateFormatter} from "date-formatter";
       });
       timeList.sort();
 
-      timeList.reduce(function(previousValue, currentValue) {
+      timeList.reduce(function (previousValue, currentValue) {
         var difference;
         var height;
         difference = Math.abs(previousValue - currentValue);
@@ -54,40 +54,31 @@ import {dateFormatter} from "date-formatter";
       return timeLine;
     };
 
-
     //title
-    var drawTitles = function(columns, titleFormatter) {
+    var drawTitles = function drawTitles(columns, titleFormatter) {
       var title = '<div class="schedule__titles">';
       var widthTitle = api.widthTimeBlock;
-      columns.forEach(function(column) {
-        title += '<div class="schedule__title"' +
-          'style="width:' + widthTitle + 'px;">' +
-          titleFormatter(column) + '</div>';
+      columns.forEach(function (column) {
+        title += '<div class="schedule__title"' + 'style="width:' + widthTitle + 'px;">' + titleFormatter(column) + '</div>';
       });
       return title + '</div>';
     };
 
-    var titleFormatter = function(column) {
+    var titleFormatter = function titleFormatter(column) {
       return '<div>' + column.title + '</div>';
     };
 
-
     // events
-    var eventsFormatter = function(event) {
-      return '<div>' + event.startTime.getHours() + ':' +
-        event.startTime.getMinutes() + ' - ' +
-        event.endTime.getHours() + ':' +
-        event.endTime.getMinutes() + '</div>' +
-        '<div>' + event.data.title + '</div>' +
-        '<div>' + event.data.text + '</div>';
+    var eventsFormatter = function eventsFormatter(event) {
+      return '<div>' + event.startTime.getHours() + ':' + event.startTime.getMinutes() + ' - ' + event.endTime.getHours() + ':' + event.endTime.getMinutes() + '</div>' + '<div>' + event.data.title + '</div>' + '<div>' + event.data.text + '</div>';
     };
 
-    var drawEvents = function(events, timeLine, eventsFormatter) {
+    var drawEvents = function drawEvents(events, timeLine, eventsFormatter) {
       var result = document.createElement('div');
       var height = getTimeLineHeight(timeLine);
       result.className = 'schedule__events';
       result.style.height = height;
-      events.forEach(function(event) {
+      events.forEach(function (event) {
         var position = getEventPosition(event, timeLine);
         var eventItem = document.createElement('div');
         eventItem.style.position = 'absolute';
@@ -102,27 +93,27 @@ import {dateFormatter} from "date-formatter";
       return result;
     };
 
-    var getEventPosition = function(event, timeLine) {
+    var getEventPosition = function getEventPosition(event, timeLine) {
       var position = {};
       position.left = getLeftEventPosition(event.column);
       position.top = getTopEventPosition(event, timeLine);
       position.bottom = getBottomEventPosition(event, timeLine);
       return position;
     };
-    var getLeftEventPosition = function(column) {
+    var getLeftEventPosition = function getLeftEventPosition(column) {
       var result;
       var width = api.widthTimeBlock;
       result = width * (column - 1) + 'px';
       return result;
     };
-    var getTopEventPosition = function(event, timeLine) {
+    var getTopEventPosition = function getTopEventPosition(event, timeLine) {
       var startEventTime = event.startTime;
       var beginTime = timeLine[0].time;
       var difference = startEventTime - beginTime;
       var top = difference * (api.heightHour / millisecondsToHour);
       return top + 'px';
     };
-    var getBottomEventPosition = function(event, timeLine) {
+    var getBottomEventPosition = function getBottomEventPosition(event, timeLine) {
       var endEventTime = event.endTime;
       var endTime = timeLine[timeLine.length - 1].time;
       var difference = endTime - endEventTime;
@@ -132,7 +123,7 @@ import {dateFormatter} from "date-formatter";
 
     //data
 
-    var getTimeLineHeight = function(timeline) {
+    var getTimeLineHeight = function getTimeLineHeight(timeline) {
       var start = timeline[0].time;
       var end = timeline[timeline.length - 1].time;
       var difference = end - start;
@@ -140,7 +131,7 @@ import {dateFormatter} from "date-formatter";
       return height;
     };
 
-    var drawSchedule = function(data) {
+    var drawSchedule = function drawSchedule(data) {
       var titleHtml = drawTitles(data.columns, api.titleFormatter);
       var timeLine = getTimeLine(data.events);
       var timeLineHtml = drawTimeLine(timeLine, api.dateFormatter);
@@ -152,7 +143,7 @@ import {dateFormatter} from "date-formatter";
     var schedule = this;
     api = $.extend({
       titleFormatter: titleFormatter,
-      dateFormatter: dateFormatter,
+      dateFormatter: _dateFormater.dateFormatter,
       eventsFormatter: eventsFormatter,
       heightHour: 100,
       widthTimeBlock: 300
