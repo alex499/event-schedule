@@ -1,18 +1,13 @@
-import {dateFormatter} from "date-formatter";
+import { dateFormatter } from "./date-formatter";
 
 (function($) {
   'use strict';
 
   $.fn.schedule = function(option) {
     var millisecondsToHour = 60 * 60 * 1000;
-    var api;
+    let api;
 
     // timeline
-    // var dateFormatter = function(date) {
-    //   return ('0' + date.getHours()).slice(-2) + ':' +
-    //     ('0' + date.getMinutes()).slice(-2);
-    // };
-
     var drawTimeLine = function(timeLine, dateFormatter) {
       var result = '<div class="schedule__timeline">';
       timeLine.slice(0, -1).forEach(function(time) {
@@ -148,6 +143,7 @@ import {dateFormatter} from "date-formatter";
       eventsHtml.appendChild(drawEvents(data.events, timeLine, api.eventsFormatter));
       schedule.html(timeLineHtml + '<div class="schedule__events-container">' + titleHtml + eventsHtml.innerHTML + '</div>');
     };
+
 
     var schedule = this;
     api = $.extend({
