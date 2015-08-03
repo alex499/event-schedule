@@ -1,5 +1,5 @@
+'use strict';
 (function ($) {
-  'use strict';
   $.fn.schedule = function (option) {
     var millisecondsToHour = 60 * 60 * 1000;
     var api;
@@ -23,7 +23,7 @@
     var getTimeLine = function (events) {
       var timeLine = [];
       var timeList = [];
-      events.forEach(function (event, i) {
+      events.forEach(function (event) {
         if (timeList.map(Number).indexOf(event.startTime.valueOf()) === -1) {
           timeList.push(event.startTime);
         }
@@ -88,6 +88,7 @@
         var position = getEventPosition(event, timeLine);
         var eventItem = document.createElement('div');
         eventItem.style.position = 'absolute';
+        eventItem.style.overflow = 'hidden';
         eventItem.style.top = position.top;
         eventItem.style.bottom = position.bottom;
         eventItem.style.left = position.left;
@@ -155,7 +156,7 @@
       widthTimeBlock: 300
     }, option);
 
-    //var data = api.data(drawSchedule);
+    api.data(drawSchedule);
     return this;
   };
 })(jQuery);
