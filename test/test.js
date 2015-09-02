@@ -1,28 +1,35 @@
-(function() {
+var assert = require('chai').assert
+var timeList = require('./fixtures/time-list')
 
-  describe('API', function () {
 
-    describe('disable()', function () {
-      var test;
-
-      before(function () {
-        test = setup_test('<select tabindex="4">', {});
-        expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('4');
-        test.selectize.disable();
-      });
-      it('should set "tabindex" prop to -1', function () {
-        expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
-      });
-      it('should set "disabled" class', function () {
-        expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
-      });
-      it('should set isDisabled property to true', function () {
-        expect(test.selectize.isDisabled).to.be.equal(true);
-      });
-      it('should add "disabled" attribute on inputs', function () {
-        expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
-        expect(test.selectize.$control_input.is(':disabled')).to.be.equal(true);
-      });
-    });
+describe('Time list', function() {
+  var events = require('./fixtures/events')
+  var getTimeList = require('../src/time-list')
+  
+  it('should be have all points', function () {
+    assert.typeOf(timeList, 'Array')
+    assert.deepEqual(timeList, getTimeList(events));
   });
 });
+
+describe('Time line', function() {
+  var timeLine = require('./fixtures/time-line')
+  var getTimeLine = require('../src/time-line')
+
+  it('should be have all points', function () {
+    assert.typeOf(timeLine, 'Array')
+    assert.deepEqual(timeLine, getTimeLine(timeList));
+  });
+});
+
+describe('Corection time line', function() {
+  var timeLine = require('./fixtures/time-line');
+  var eventsList = require('./fixtures/events-list');
+  var correctionTimeLine = require('./fixtures/correction-time-line');
+  var getCorrectionTimeLine = require('../src/correction-time-line');
+  it('should be correct time line', function () {
+    var outTimeLine = getCorrectionTimeLine(timeLine, eventsList);
+    assert.deepEqual(correctionTimeLine, outTimeLine);
+  });
+});
+

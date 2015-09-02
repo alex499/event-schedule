@@ -1,0 +1,26 @@
+{
+  "name": "event-schedule",
+  "version": "1.0.0",
+  "description": "event schedule",
+  "main": "karma.conf.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alex499/event-schedule.git"
+  },
+  "author": "Tsitrkop Aleksey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alex499/event-schedule/issues"
+  },
+  "devDependencies": {
+    "mocha": "~2.2.5",
+    "chai": "~3.2.0"
+  }
+}

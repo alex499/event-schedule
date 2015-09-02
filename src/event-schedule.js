@@ -156,6 +156,9 @@
     }, option);
 
     //var data = api.data(drawSchedule);
+
+
+    this.getTimeLine;
     return this;
   };
 })(jQuery);
