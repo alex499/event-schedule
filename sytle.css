@@ -1,5 +1,6 @@
 .schedule {
     width: 100%;
+    position: relative;
 }
 
 .schedule__time {
@@ -11,17 +12,32 @@
     display: inline-block;
     vertical-align: bottom;
 }
+
+.schedule__timeline--left {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.schedule__timeline--right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .schedule__events-container {
-    display: inline-block;
     vertical-align: top;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
+    box-sizing: border-box;
 }
+
 .schedule__events {
     width: 100%;
     position: relative;
 }
+
 .schedule__titles {
     white-space: nowrap;
 }

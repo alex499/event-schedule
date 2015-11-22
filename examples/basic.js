@@ -5,7 +5,9 @@ $(document).ready(function() {
                 columns: scheduleColumn,
                 events: scheduleData
             });
-        }
+        },
+        timeLineLeft: true,
+        timeLineRight: true,
         // widthTimeBlock: 33
         //heightHour: '50'
     });

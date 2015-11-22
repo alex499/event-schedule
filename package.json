@@ -20,7 +20,9 @@
     "url": "https://github.com/alex499/event-schedule/issues"
   },
   "devDependencies": {
-    "mocha": "~2.2.5",
-    "chai": "~3.2.0"
+    "browser-sync": "^2.10.0",
+    "chai": "~3.2.0",
+    "gulp": "^3.9.0",
+    "mocha": "~2.2.5"
   }
 }

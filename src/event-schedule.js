@@ -10,8 +10,8 @@
         ('0' + date.getMinutes()).slice(-2);
     };
 
-    var drawTimeLine = function (timeLine, dateFormatter) {
-      var result = '<div class="schedule__timeline">';
+    var drawTimeLine = function (timeLine, dateFormatter, position) {
+      var result = '<div class="schedule__timeline--' + position + '">';
       timeLine.slice(0, -1).forEach(function (time) {
         result += '<div class="schedule__time"' +
           'style="height:' + time.height + '">' +
@@ -53,7 +53,7 @@
 
 
     //title
-    var drawTitles = function (columns, titleFormatter) {
+      var drawTitles = function (columns, titleFormatter) {
       var title = '<div class="schedule__titles">';
       var widthTitle = api.widthTimeBlock;
       columns.forEach(function (column) {
@@ -138,24 +138,44 @@
     };
 
     var drawSchedule = function (data) {
-      var titleHtml = drawTitles(data.columns, api.titleFormatter);
       var timeLine = getTimeLine(data.events);
-      var timeLineHtml = drawTimeLine(timeLine, api.dateFormatter);
       var eventsHtml = document.createElement('div');
+      var titleHtml = '';
+      var timeLineLeftHtml = '';
+      var timeLineRightHtml = '';
+      var margin = 'style="';
+
+      if (api.timeLineRight) {
+        timeLineRightHtml = drawTimeLine(timeLine, api.dateFormatterRight, 'right');
+        margin += 'margin-right:' + api.timeLineWidth + 'px;';
+      }
+      if (api.timeLineLeft) {
+        timeLineLeftHtml = drawTimeLine(timeLine, api.dateFormatterLeft, 'left');
+        margin += 'margin-left:' + api.timeLineWidth + 'px;';
+      }
+      if (api.title) {
+        titleHtml = drawTitles(data.columns, api.titleFormatter);
+      }
+      margin += '"';
       eventsHtml.appendChild(drawEvents(data.events, timeLine, api.eventsFormatter));
-      schedule.html(timeLineHtml + '<div class="schedule__events-container">' + titleHtml + eventsHtml.innerHTML + '</div>');
+      schedule.html('<div class="schedule">' + timeLineLeftHtml + '<div class="schedule__events-container" ' + margin + '>' + titleHtml + eventsHtml.innerHTML + '</div>' + timeLineRightHtml + '</div>');
     };
 
     var schedule = $(this);
     api = $.extend({
       titleFormatter: titleFormatter,
-      dateFormatter: dateFormatter,
+      dateFormatterLeft: dateFormatter,
+      dateFormatterRight: dateFormatter,
       eventsFormatter: eventsFormatter,
       heightHour: 100,
-      widthTimeBlock: 300
+      widthTimeBlock: 300,
+      title: false,
+      timeLineLeft: true,
+      timeLineRight: true,
+      timeLineWidth: 40,
     }, option);
 
-    //var data = api.data(drawSchedule);
+    var data = api.data(drawSchedule);
 
 
     this.getTimeLine;
