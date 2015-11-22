@@ -51,6 +51,49 @@
       return timeLine;
     };
 
+    var getTimeLineFill = function (start, end, delta) {
+      var deltaDate = delta * 60 * 1000;
+      var timeList = [];
+      var timeLine = [];
+      var startDate;
+      var endDate;
+
+      startDate = new Date();
+      startDate.setHours(start);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      startDate.setMilliseconds(0);
+      startDate = startDate.getTime();
+
+      endDate = new Date();
+      endDate.setHours(end);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
+      endDate.setMilliseconds(0);
+      endDate = endDate.getTime();
+
+      while (startDate <= endDate) {
+          timeList.push(new Date(startDate));
+          startDate += deltaDate;
+      };
+
+      timeList.reduce(function (previousValue, currentValue) {
+        var difference;
+        var height;
+        difference = Math.abs(previousValue - currentValue);
+        height = difference * (api.heightHour / millisecondsToHour);
+        timeLine.push({
+          time: previousValue,
+          height: height + 'px'
+        });
+        return currentValue;
+      });
+      timeLine.push({
+        time: timeList[timeList.length - 1],
+        height: 'auto'
+      });
+      return timeLine;
+    };
 
     //title
       var drawTitles = function (columns, titleFormatter) {
@@ -138,12 +181,18 @@
     };
 
     var drawSchedule = function (data) {
-      var timeLine = getTimeLine(data.events);
       var eventsHtml = document.createElement('div');
+      var timeLine = '';
       var titleHtml = '';
       var timeLineLeftHtml = '';
       var timeLineRightHtml = '';
       var margin = 'style="';
+
+      if (api.timeLineFill) {
+        timeLine = getTimeLineFill(api.timeStart, api.timeEnd, api.timeDelta);
+      } else {
+        timeLine = getTimeLine(data.events);
+      }
 
       if (api.timeLineRight) {
         timeLineRightHtml = drawTimeLine(timeLine, api.dateFormatterRight, 'right');
@@ -173,6 +222,7 @@
       timeLineLeft: true,
       timeLineRight: true,
       timeLineWidth: 40,
+      timeLineFill: false,
     }, option);
 
     var data = api.data(drawSchedule);
